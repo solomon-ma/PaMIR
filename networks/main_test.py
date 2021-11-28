@@ -22,6 +22,9 @@ def main_test_with_gt_smpl(test_img_dir, out_dir, pretrained_checkpoint, pretrai
     evaluator = Evaluator(device, pretrained_checkpoint, pretrained_gcmr_checkpoint)
     for step, batch in enumerate(tqdm(loader, desc='Testing', total=len(loader), initial=0)):
         batch = {k: v.to(device) if isinstance(v, torch.Tensor) else v for k, v in batch.items()}
+        print(batch['betas'])
+        print(batch['pose'])
+        print(batch['scale'])
         mesh = evaluator.test_pifu(batch['img'], 256, batch['betas'], batch['pose'], batch['scale'],
                                    batch['trans'])
         img_dir = batch['img_dir'][0]
@@ -116,24 +119,24 @@ def main_test_texture(test_img_dir, out_dir, pretrained_checkpoint_pamir,
 
 if __name__ == '__main__':
     iternum=50
-    input_image_dir = './results/test_data/'
-    output_dir = './results/test_data/'
+    input_image_dir = './results/test_data'
+    output_dir = './results/test/'
     # input_image_dir = './results/test_data_real/'
     # output_dir = './results/test_data_real/'
     # input_image_dir = './results/test_data_rendered/'
     # output_dir = './results/test_data_rendered/'
 
     #! NOTE: We recommend using this when accurate SMPL estimation is available (e.g., through external optimization / annotation)
-    # main_test_with_gt_smpl(input_image_dir,
-    #                        output_dir,
-    #                        pretrained_checkpoint='./results/pamir_geometry/checkpoints/latest.pt',
-    #                        pretrained_gcmr_checkpoint='./results/gcmr_pretrained/gcmr_2020_12_10-21_03_12.pt')
+    main_test_with_gt_smpl(input_image_dir,
+                           output_dir,
+                           pretrained_checkpoint='./results/pamir_geometry/checkpoints/latest.pt',
+                           pretrained_gcmr_checkpoint='./results/gcmr_pretrained/gcmr_2020_12_10-21_03_12.pt')
 
     #! Otherwise, use this function to predict and optimize a SMPL model for the input image
-    main_test_wo_gt_smpl_with_optm(input_image_dir,
-                                   output_dir,
-                                   pretrained_checkpoint='./results/pamir_geometry/checkpoints/latest.pt',
-                                   pretrained_gcmr_checkpoint='./results/gcmr_pretrained/gcmr_2020_12_10-21_03_12.pt')
+    # main_test_wo_gt_smpl_with_optm(input_image_dir,
+    #                                output_dir,
+    #                                pretrained_checkpoint='./results/pamir_geometry/checkpoints/latest.pt',
+    #                                pretrained_gcmr_checkpoint='./results/gcmr_pretrained/gcmr_2020_12_10-21_03_12.pt')
 
     main_test_texture(output_dir,
                       output_dir,

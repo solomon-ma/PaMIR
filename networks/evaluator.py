@@ -18,7 +18,7 @@ import glob
 import logging
 import math
 
-from network.arch import PamirNet
+from network.arch import PamirNet,PamirNetMultiview
 from neural_voxelization_layer.smpl_model import TetraSMPL
 from neural_voxelization_layer.voxelize import Voxelization
 from util.img_normalization import ImgNormalizerForResnet
@@ -59,12 +59,14 @@ class Evaluator(object):
 
         # PIFU
         self.pamir_net = PamirNet().to(self.device)
+        #self.multi_pamir_net = PamirNetMultiview().to(self.device)
         self.models_dict = {'pamir_net': self.pamir_net}
         self.load_pretrained(checkpoint_file=pretrained_checkpoint)
         self.load_pretrained_gcmr(gcmr_checkpoint)
         self.graph_cnn.eval()
         self.smpl_param_regressor.eval()
         self.pamir_net.eval()
+        #self.multi_pamir_net.eval()
 
     def load_pretrained(self, checkpoint_file=None):
         """Load a pretrained checkpoint.

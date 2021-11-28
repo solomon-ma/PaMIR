@@ -16,8 +16,8 @@ import objio
 """ 
 runtime configuration 
 """
-mesh_data_dir = '../dataset_example/mesh_data'
-output_data_dir = '../dataset_example/image_data'
+mesh_data_dir = '/data/huima/THuman2.0'
+output_data_dir = '/data/huima/THuman2.0'
 view_num = 360
 cam_f = 5000
 cam_dist = 10
@@ -25,7 +25,7 @@ cam_dist = 10
 
 def get_data_list():
     """reads data list"""
-    data_list = glob.glob(os.path.join(mesh_data_dir, './*/'))
+    data_list = glob.glob(os.path.join(mesh_data_dir, '*/'))
     return sorted(data_list)
 
 

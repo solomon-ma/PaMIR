@@ -7,19 +7,22 @@ import tqdm
 import objio
 import prt.prt_util as prt_util
 
-mesh_dir = '../dataset_example/mesh_data'
+mesh_dir = '/data/huima/THuman2.0'
 
 
 def get_data_list():
     """reads data list"""
-    data_list = glob.glob(os.path.join(mesh_dir, './*/'))
+    data_list = glob.glob(os.path.join(mesh_dir, '*/'))
     return sorted(data_list)
 
 
 def get_mesh_tex_fname(folder):
     obj_list = glob.glob(os.path.join(folder, '*.obj'))
-    jpg_list = glob.glob(os.path.join(folder, '*.jpg'))
-    assert len(obj_list)==1 and len(jpg_list)==1, '[ERROR] More than one obj/jpg file are found!'
+    jpg_list = glob.glob(os.path.join(folder, '*.jpeg'))
+    #print(jpg_list)
+    #assert len(obj_list)==1 and len(jpg_list)==1, '[ERROR] More than one obj/jpg file are found!'
+    assert len(obj_list)==1 , '[ERROR] More than one obj/jpg file are found!'
+    print(obj_list[0])
     return obj_list[0], jpg_list[0]
 
 
@@ -27,6 +30,7 @@ def process_one_data_item(data_item):
     _, item_name = os.path.split(data_item[:-1])
     source_fd = os.path.join(mesh_dir, item_name)
     obj_fname, tex_fname = get_mesh_tex_fname(source_fd)
+    print(tex_fname)
     prt_util.testPRT(obj_fname)
     print('Processed ' + item_name)
 

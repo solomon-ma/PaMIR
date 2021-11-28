@@ -19,7 +19,7 @@ import math
 
 from util.base_trainer import BaseTrainer
 from dataloader.dataloader_tex import TrainingImgDataset
-from network.arch import PamirNet, TexPamirNetAttention
+from network.arch import PamirNet, TexPamirNetAttention, PamirNetMultiview, TexPamirNetAttentionMultiview
 from neural_voxelization_layer.smpl_model import TetraSMPL
 from neural_voxelization_layer.voxelize import Voxelization
 from util.img_normalization import ImgNormalizerForResnet
@@ -61,6 +61,9 @@ class Trainer(BaseTrainer):
         # pamir_net
         self.pamir_net = PamirNet().to(self.device)
         self.pamir_tex_net = TexPamirNetAttention().to(self.device)
+
+        # self.multi_pamir_net = PamirNetMultiview().to(self.device)
+        # self.multi_pamir_tex_net = TexPamirNetAttentionMultiview.to(self.device)
 
         # optimizers
         self.optm_pamir_tex_net = torch.optim.Adam(

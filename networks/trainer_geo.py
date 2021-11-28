@@ -19,7 +19,7 @@ import math
 
 from util.base_trainer import BaseTrainer
 from dataloader.dataloader import TrainingImgDataset
-from network.arch import PamirNet
+from network.arch import PamirNet, PamirNetMultiview
 from neural_voxelization_layer.smpl_model import TetraSMPL
 from neural_voxelization_layer.voxelize import Voxelization
 from util.img_normalization import ImgNormalizerForResnet
@@ -66,7 +66,8 @@ class Trainer(BaseTrainer):
                                          batch_size=self.options.batch_size).to(self.device)
 
         # pamir_net
-        self.pamir_net = PamirNet().to(self.device)
+        #self.pamir_net = PamirNet().to(self.device)
+        self.multi_pamir_net = PamirNetMultiview().to(self.device)
 
         # optimizers
         self.optm_pamir_net = torch.optim.RMSprop(

@@ -9,12 +9,10 @@ matplotlib
 numpy
 opencv-python==3.4.9.31
 opendr
-OpenEXR
 pandas 
 pathlib
 Pillow 
 pyembree
-PyEXR
 PyOpenGL
 pyparsing
 pyrender

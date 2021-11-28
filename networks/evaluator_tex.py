@@ -18,7 +18,7 @@ import glob
 import logging
 import math
 
-from network.arch import PamirNet, TexPamirNetAttention
+from network.arch import PamirNet, TexPamirNetAttention, PamirNetMultiview, TexPamirNetAttentionMultiview
 from neural_voxelization_layer.voxelize import Voxelization
 from neural_voxelization_layer.smpl_model import TetraSMPL
 from util.img_normalization import ImgNormalizerForResnet
@@ -52,11 +52,19 @@ class EvaluatorTex(object):
         self.pamir_net = PamirNet().to(self.device)
         self.pamir_tex_net = TexPamirNetAttention().to(self.device)
 
+        # multi-view pamir_net
+        self.multi_pamir_net = PamirNetMultiview().to(self.device)
+        self.multi_pamir_tex_net = TexPamirNetAttentionMultiview().to(self.device)
+
         self.models_dict = {'pamir_tex_net': self.pamir_tex_net}
         self.load_pretrained_pamir_net(pretrained_checkpoint_pamir)
         self.load_pretrained(checkpoint_file=pretrained_checkpoint_pamir_tex)
-        self.pamir_net.eval()
-        self.pamir_tex_net.eval()
+        
+        #self.pamir_net.eval()
+        #self.pamir_tex_net.eval()
+        self.multi_pamir_net.eval()
+        self.multi_pamir_tex_net.eval()
+
 
     def load_pretrained(self, checkpoint_file=None):
         """Load a pretrained checkpoint.

@@ -17,8 +17,8 @@ from renderer.camera import Camera
 """ 
 runtime configuration 
 """
-mesh_data_dir = '../dataset_example/mesh_data'
-output_data_dir = '../dataset_example/image_data'
+mesh_data_dir = '/data/huima/THuman2.0'
+output_data_dir = '/data/huima/THuman2.0'
 view_num = 360
 cam_f = 5000
 cam_dist = 10
@@ -27,17 +27,21 @@ img_res = 512
 
 def get_data_list():
     """reads data list"""
-    data_list = glob.glob(os.path.join(mesh_data_dir, './*/'))
+    data_list = glob.glob(os.path.join(mesh_data_dir, '*/'))
     return sorted(data_list)
 
 
 def read_data(item):
     """reads data """
     mesh_filename = glob.glob(os.path.join(item, '*.obj'))[0]  # assumes one .obj file
-    text_filename = glob.glob(os.path.join(item, '*.jpg'))[0]  # assumes one .jpg file
-
+    
+    text_filename = glob.glob(os.path.join(item, '*.jpeg'))[0]  # assumes one .jpg file
+    print(mesh_filename)
+    print(text_filename)
     vertices, faces, normals, faces_normals, textures, face_textures \
         = load_obj_mesh(mesh_filename, with_normal=True, with_texture=True)
+    #import pdb
+    #pdb.set_trace()
     texture_image = cv.imread(text_filename)
     texture_image = cv.cvtColor(texture_image, cv.COLOR_BGR2RGB)
 
@@ -102,7 +106,6 @@ def generate_cameras(dist=10, view_num=60):
                 'up': -down, 
             }
         )
-
     return cams
 
 
@@ -195,7 +198,7 @@ def process_one_data_item(data_item, rndr, rndr_uv, shs):
 def main():
     shs = np.load('./env_sh.npy')
     egl = False
-    
+   
     from renderer.gl.init_gl import initialize_GL_context
     initialize_GL_context(width=img_res, height=img_res, egl=egl)
 
